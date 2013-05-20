@@ -1,0 +1,10 @@
+{
+    "name": "travel_server",
+    "description": "travelling site",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "mongodb"     : "*",
+        "express"     : "3.x"
+    }
+}
