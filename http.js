@@ -7,7 +7,7 @@
 
 
 var http = require('http'),
-location = require('./routes/locations');
+location = require('./locations');
 
 
 
