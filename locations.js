@@ -10,12 +10,13 @@ var db = null;
 mongo.connect(mongoUri, {}, function(err, database) {
     if(!err) {
         db = database;
-        console.log("Connected to 'locationsdb' database");
+        console.log("Connected to 'locationsdb' database, HERE");
         db.collection('locations', {safe:true}, function(err, collection) {
             if (err) {
                 console.log("The 'locations' collection doesn't exist. Creating it ");
                 populateDB();
             }
+           console.log("now I am HERE");
         });
     }
     else {
