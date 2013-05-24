@@ -1,43 +1,43 @@
 var mongo = require('mongodb');
 
 var Server = mongo.Server,
-Db = mongo.Db,
-BSON = mongo.BSONPure,
-ObjectID = mongo.ObjectID;
+    BSON = mongo.BSONPure;
 
-var mongoUri = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://locationsdb';
-  mongo.Db.connect(mongoUri, function (err, db) {
-    db.collection('locations', function(er, collection) {
-      if (err) {
-                      console.log("The 'locations' collection doesn't exist. Creating it with sample data...");
-                      populateDB();
-                  }
-    });
-  });
+var mongoUri = process.env.MONGOLAB_URI || "mongodb://localhost/locationsdb?auto_reconnnect"
 
-// exports.findById = function(req, res) {
-//     var id = req.params.id;
-//     console.log('Retrieving location: ' + id);
-//     db.collection('locations', function(err, collection) {
-//         collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-//             res.send(item);
-//         });
-//     });
-//};
+var db = null;
 
-// exports.findAll = function(req, res) {
-//     db.collection('locations', function(err, collection) {
-//         collection.find().toArray(function(err, items) {
-//             res.write(items);
-//         });
-//     });
-// };
+mongo.connect(mongoUri, {}, function(err, database) {
+    if(!err) {
+        db = database;
+        console.log("Connected to 'locationsdb' database");
+        db.collection('locations', {safe:true}, function(err, collection) {
+            if (err) {
+                console.log("The 'locations' collection doesn't exist. Creating it with sample data...");
+                populateDB();
+            }
+        });
+    }
+    else {
+        console.log("COULD NOT CONNECT TO MONGO: " + mongoUri);
+    }
+});
 
-exports.findAll = function(cb) {
+exports.findById = function(req, res) {
+    var id = req.params.id;
+    console.log('Retrieving location: ' + id);
     db.collection('locations', function(err, collection) {
-        collection.find().toArray(cb);
+        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
+            res.send(item);
+        });
+    });
+};
+
+exports.findAll = function(req, res) {
+    db.collection('locations', function(err, collection) {
+        collection.find().toArray(function(err, items) {
+            res.send(items);
+        });
     });
 };
 
@@ -59,6 +59,7 @@ exports.addLocation = function(req, res) {
 exports.updateLocation = function(req, res) {
     var id = req.params.id;
     var location = req.body;
+    delete wine._id;
     console.log('Updating location: ' + id);
     console.log(JSON.stringify(location));
     db.collection('locations', function(err, collection) {
@@ -68,7 +69,7 @@ exports.updateLocation = function(req, res) {
                 res.send({'error':'An error has occurred'});
             } else {
                 console.log('' + result + ' document(s) updated');
-                res.send(location);
+                res.send(wine);
             }
         });
     });
@@ -88,7 +89,6 @@ exports.deleteLocation = function(req, res) {
         });
     });
 }
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
