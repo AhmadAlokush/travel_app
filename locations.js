@@ -11,6 +11,7 @@ mongo.connect(mongoUri, {}, function(err, database) {
     if(!err) {
         db = database;
         console.log("Connected to 'locationsdb' database");
+        populateDB();
         db.collection('locations', {safe:true}, function(err, collection) {
             if (err) {
                 console.log("The 'locations' collection doesn't exist. Creating it with sample data...");
