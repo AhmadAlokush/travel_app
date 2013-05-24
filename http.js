@@ -21,4 +21,4 @@ http.createServer(function (request, response) {
     response.end();
   };
   location.findAll(callback);
-}).listen(8080);
+}).listen(9999);
