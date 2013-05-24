@@ -7,7 +7,7 @@ ObjectID = mongo.ObjectID;
 
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
-  'mongodb://localhost/locationsdb';
+  'mongodb://locationsdb';
   mongo.Db.connect(mongoUri, function (err, db) {
     db.collection('locations', function(er, collection) {
       if (err) {
