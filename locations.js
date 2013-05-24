@@ -3,7 +3,7 @@ var mongo = require('mongodb');
 var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
-var mongoUri = process.env.MONGOLAB_URI || "mongodb://localhost/locationsdb?auto_reconnnect"
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost/locationsdb?auto_reconnnect"
 
 var db = null;
 
