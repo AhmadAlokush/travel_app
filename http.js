@@ -20,8 +20,5 @@ http.createServer(function (request, response) {
     }
     response.end();
   };
-
   location.findAll(callback);
-  // console.log(location.findAll());
-  // response.write(location.findAll() + '');
 }).listen(8080);

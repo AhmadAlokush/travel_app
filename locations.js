@@ -33,11 +33,9 @@ exports.findById = function(req, res) {
     });
 };
 
-exports.findAll = function(req, res) {
+exports.findAll = function(cb) {
     db.collection('locations', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-            res.send(items);
-        });
+        collection.find().toArray(cb);
     });
 };
 
