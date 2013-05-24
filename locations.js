@@ -16,7 +16,14 @@ mongo.connect(mongoUri, {}, function(err, database) {
                 console.log("The 'locations' collection doesn't exist. Creating it ");
                 populateDB();
             }
-           console.log("now I am HERE");
+            else {
+              collection.count(function (err, count) {
+                  if (!err && count === 0) {
+                     console.log("About to populate the DB");
+                      populateDB();
+                  }
+              });
+            }
         });
     }
     else {
